@@ -58,6 +58,28 @@ impl TicketStore {
     }
 }
 
+impl Default for TicketStore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl std::ops::Index<TicketId> for TicketStore {
+    type Output = Ticket;
+
+    fn index(&self, index: TicketId) -> &Self::Output {
+        self.get(index).expect("Not ticked found in given Id")
+    }
+}
+
+impl std::ops::Index<&TicketId> for TicketStore {
+    type Output = Ticket;
+
+    fn index(&self, index: &TicketId) -> &Self::Output {
+        &self[*index]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::{Status, TicketDraft, TicketStore};
